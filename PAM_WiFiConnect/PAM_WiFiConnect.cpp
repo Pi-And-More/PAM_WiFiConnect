@@ -2,6 +2,8 @@
 // Include the PAM_WiFiAuto header
 //
 // created by PI and more, piandmore@j-tools.net
+// More extensive documentation can be found here:
+// https://piandmore.wordpress.com/tag/pam_wificonnect
 //
 #include <PAM_WiFiConnect.h>
 //
