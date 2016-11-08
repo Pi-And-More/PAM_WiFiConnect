@@ -105,7 +105,10 @@ void wifiConnectGetPW (String ssid) {
 // Please note that wifiAutoConnect will only see broadcasted ssid's and only as a final
 // resort connect to the ssid in 0.txt.
 //
-void wifiAutoConnect (boolean debug) {
+// You can start the function with (true) in which case there will be information about
+// the found networks etc printed to Serial.
+//
+void wifiAutoConnect (bool debug) {
   if (debug) {
     Serial.println("Trying to auto connect to wifi.");
   }

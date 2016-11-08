@@ -41,6 +41,10 @@ void wifiConnectGetPW (String ssid)
 // Please note that wifiAutoConnect will only see broadcasted ssid's and only as a final
 // resort connect to the ssid in 0.txt.
 //
+// You can start the function with (true) in which case there will be information about
+// the found networks etc printed to Serial.
+//
 void wifiAutoConnect ()
+void wifiAutoConnect (bool debug)
 
 You can read about it in more detail on https://piandmore.wordpress.com/tag/pam_wificonnect/
