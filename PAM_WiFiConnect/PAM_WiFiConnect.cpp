@@ -58,10 +58,10 @@ void wifiConnect (String ssid, String password) {
     }
     if (WiFi.status()!=WL_CONNECTED) {
       WiFi.disconnect();
-      Serial.println();
     } else {
       connected = true;
     }
+    Serial.println();
     cnt2++;
   }
 }
@@ -75,7 +75,7 @@ void wifiConnectGetPW (String ssid) {
   // The password is located in the folder wifi
   //
   String password = getStringKey("wifi",ssid);
-  if (password!=NOKEYFOUND) {
+  if (password!=NOSTRINGKEYFOUND) {
     wifiConnect(ssid,password);
   } else {
     WiFi.disconnect();
@@ -105,7 +105,10 @@ void wifiConnectGetPW (String ssid) {
 // Please note that wifiAutoConnect will only see broadcasted ssid's and only as a final
 // resort connect to the ssid in 0.txt.
 //
-void wifiAutoConnect () {
+void wifiAutoConnect (boolean debug) {
+  if (debug) {
+    Serial.println("Trying to auto connect to wifi.");
+  }
   byte j = 1;
   String found;
   //
@@ -113,10 +116,25 @@ void wifiAutoConnect () {
   // list of files, so 1.txt, 2.txt, 3.txt etc. If 2.txt for example is missing, the loop
   // stops and will not reach 3.txt
   //
+  if (debug) {
+    Serial.println("Scanning for wifi networks.");
+  }
+  int n = WiFi.scanNetworks();
+  if (debug) {
+    Serial.print("Found ");
+    Serial.print(n);
+    Serial.println(" networks");
+    Serial.println("Checking for preferred networks");
+  }
   do {
     found = getStringKey("wifi",String(j));
-    if (found!=NOKEYFOUND) {
-      int n = WiFi.scanNetworks();
+    if (found!=NOSTRINGKEYFOUND) {
+      if (debug) {
+        Serial.print("Checking for preferred network ");
+        Serial.print(j);
+        Serial.print(", ");
+        Serial.println(found);
+      }
       if (n>0) {
         for (int i=0;i<n;i++) {
           if (WiFi.SSID(i)==found) {
@@ -124,6 +142,10 @@ void wifiAutoConnect () {
             // One of the preferred networks is found. Connect to it by getting the password
             // and exit the function.
             //
+            if (debug) {
+              Serial.print("Going to connect to ");
+              Serial.println(found);
+            }
             wifiConnectGetPW(WiFi.SSID(i));
             return;
           }
@@ -131,26 +153,43 @@ void wifiAutoConnect () {
       }
       j++;
     }
-  } while (found!=NOKEYFOUND);
-  int n = WiFi.scanNetworks();
+  } while (found!=NOSTRINGKEYFOUND);
+  if (debug) {
+    Serial.println("Preferred networks not available.");
+  }
   if (n>0) {
     for (int i=0;i<n;i++) {
       String pw = getStringKey("wifi",WiFi.SSID(i));
-      if (pw!=NOKEYFOUND) {
+      if (pw!=NOSTRINGKEYFOUND) {
         //
         // A wifi network has been found for which we have a password. Connect to it and
         // exit the function.
+        if (debug) {
+          Serial.print("Going to connect to ");
+          Serial.println(WiFi.SSID(i));
+        }
         wifiConnect(WiFi.SSID(i),pw);
         return;
       }
     }
   }
+  if (debug) {
+    Serial.println("No network found with credentials.");
+  }
   found = getStringKey("wifi",String(0));
-  if (found!=NOKEYFOUND) {
+  if (found!=NOSTRINGKEYFOUND) {
     //
     // Not connected to any network that has a visible ssid. Now try to connect to a
     // predefined, possibly hidden, ssid
     //
+    if (debug) {
+      Serial.print("Trying hidden SSID ");
+      Serial.println(found);
+    }
     wifiConnectGetPW(found);
   }
+}
+
+void wifiAutoConnect () {
+  wifiAutoConnect(false);
 }

@@ -1,3 +1,4 @@
+PAM_WiFiConnect	KEYWORD2
 wifiConnect	KEYWORD2
 wifiConnectGetPW	KEYWORD2
 wifiAutoConnect	KEYWORD2

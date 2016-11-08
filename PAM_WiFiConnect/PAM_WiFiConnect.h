@@ -6,5 +6,6 @@
 void wifiConnect (String, String);
 void wifiConnectGetPW (String);
 void wifiAutoConnect ();
+void wifiAutoConnect (boolean);
 
 #endif
