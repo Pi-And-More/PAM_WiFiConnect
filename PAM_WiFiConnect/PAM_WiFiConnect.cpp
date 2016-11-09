@@ -126,7 +126,12 @@ void wifiAutoConnect (bool debug) {
   if (debug) {
     Serial.print("Found ");
     Serial.print(n);
-    Serial.println(" networks");
+    Serial.println(" networks:");
+    Serial.println();
+    for (int i=0;i<n;i++) {
+      Serial.println(WiFi.SSID(i));
+    }
+    Serial.println();
     Serial.println("Checking for preferred networks");
   }
   do {
@@ -150,7 +155,11 @@ void wifiAutoConnect (bool debug) {
               Serial.println(found);
             }
             wifiConnectGetPW(WiFi.SSID(i));
-            return;
+            if (WiFi.status()==WL_CONNECTED) {
+              return;
+            } else if (debug) {
+              Serial.println("Connecting failed.");
+            }
           }
         }
       }
