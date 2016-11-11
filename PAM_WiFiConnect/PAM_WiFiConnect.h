@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 void wifiConnect (String, String);
-void wifiConnectGetPW (String);
-void wifiAutoConnect ();
-void wifiAutoConnect (boolean);
+void wifiConnect (String);
+void wifiConnect ();
+void wifiConnect (boolean);
 
 #endif
