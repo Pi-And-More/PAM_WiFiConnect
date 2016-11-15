@@ -1,2 +1,3 @@
 PAM_WiFiConnect	KEYWORD2
 wifiConnect	KEYWORD2
+waitWiFiConnect	KEYWORD2

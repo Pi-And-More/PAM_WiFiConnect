@@ -47,4 +47,13 @@ void wifiConnectGetPW (String ssid)
 void wifiAutoConnect ()
 void wifiAutoConnect (bool debug)
 
+//
+// Sometimes you have an IoT device where you need an internet connection
+// for example for a logger of some sort. In those cases, the wifi connection
+// needs to be up. This function, which you can call in your setup,
+// will continiously try to connect to the wifi and will not return to
+// setup until it does have a connection.
+//
+void waitWiFiConnect ()
+
 You can read about it in more detail on https://piandmore.wordpress.com/tag/pam_wificonnect/

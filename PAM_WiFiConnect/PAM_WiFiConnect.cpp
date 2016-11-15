@@ -205,3 +205,29 @@ void wifiConnect (bool debug) {
 void wifiConnect () {
   wifiConnect(false);
 }
+
+//
+// Sometimes you have an IoT device where you need an internet connection
+// for example for a logger of some sort. In those cases, the wifi connection
+// needs to be up. This function, which you can call in your setup,
+// will continiously try to connect to the wifi and will not return to
+// setup until it does have a connection.
+//
+void waitWiFiConnect () {
+  pinMode(2,OUTPUT);
+  digitalWrite(2,LOW);
+  bool connected = false;
+  while (!connected) {
+    wifiConnect();
+    if (WiFi.status()==WL_CONNECTED) {
+      digitalWrite(2,HIGH);
+      Serial.println(WiFi.localIP());
+      connected = true;
+    } else {
+      digitalWrite(2,HIGH);
+      delay(500);
+      digitalWrite(2,LOW);
+      delay(60*1000);
+    }
+  }
+}
