@@ -213,12 +213,12 @@ void wifiConnect () {
 // will continiously try to connect to the wifi and will not return to
 // setup until it does have a connection.
 //
-void waitWiFiConnect () {
+void waitWiFiConnect (bool debug) {
   pinMode(2,OUTPUT);
   digitalWrite(2,LOW);
   bool connected = false;
   while (!connected) {
-    wifiConnect();
+    wifiConnect(debug);
     if (WiFi.status()==WL_CONNECTED) {
       digitalWrite(2,HIGH);
       Serial.println(WiFi.localIP());
@@ -227,7 +227,14 @@ void waitWiFiConnect () {
       digitalWrite(2,HIGH);
       delay(500);
       digitalWrite(2,LOW);
+      if (debug) {
+        Serial.println("Not connected, waiting 1 minute");
+      }
       delay(60*1000);
     }
   }
+}
+
+void waitWiFiConnect () {
+  waitWiFiConnect(false);
 }

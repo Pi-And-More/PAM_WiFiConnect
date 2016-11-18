@@ -6,7 +6,8 @@
 void wifiConnect (String, String);
 void wifiConnect (String);
 void wifiConnect ();
-void wifiConnect (boolean);
+void wifiConnect (bool);
+void waitWiFiConnect (bool);
 void waitWiFiConnect ();
 
 #endif
